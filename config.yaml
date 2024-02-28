@@ -1,0 +1,102 @@
+paths:
+  VM_PATH: "/home/rodriguez/Documents/logs/vm/"
+  LOGS_DIR: "/home/rodriguez/Documents/logs/"
+
+keys:
+  FORWARD_KEY: "w"
+  LEFT_KEY: "a"
+  RIGHT_KEY: "d"
+  FINISH_KEY: "f"
+
+feature_matching:
+  descriptor: "SuperGlue"
+
+thresholds:
+  confidence: 0.8
+  depth: 0
+
+logs:
+  matched_points: True
+  pc: True
+  current_imgs: False
+  merged_pc: True # Registration final's result
+  pc_as_npy: False
+  initial_pc: True
+
+mode:
+  color: True
+  visual_path: False
+
+registration:
+  alignment: "SVD"
+  icp: "point_to_point"
+  max_iteration: 10000
+  distance_threshold: 10
+  voxel_size: 2.5
+  visualization: False
+
+rscs:
+  coverageLim: 0.95
+  coverSphereRad: 2.0
+
+navigation:
+  fit_threshold: 0.7
+  forward_threshold: 0.1
+  lateral_threshold: 0.2
+  yaw_threshold: 2
+
+fuzzy_navigation:
+  error_resolution: 0.01
+  max_position_error: 1.0
+  max_orientation_error: 180
+
+  position_error:
+    Near:
+      start: 0.0
+      peak: 0.0
+      end: 0.1  # Assuming forward_threshold is 0.1
+    Far:
+      start: 0.1  # Assuming forward_threshold is 0.1
+      peak: 0.2
+      end: 1.0
+
+  orientation_error:
+    Small:
+      start: 0.0
+      peak: 0.0
+      end: 0.2  # Assuming lateral_threshold is 0.2
+    Moderate:
+      start: 0.2  # Assuming lateral_threshold is 0.2
+      peak: 1.1  # Midpoint between lateral_threshold and yaw_threshold
+      end: 2  # Assuming yaw_threshold is 2
+    Large:
+      start: 2  # Assuming yaw_threshold is 2
+      peak: 91
+      end: 180
+
+  actions:
+    Stop:
+      start: 0
+      peak: 0.25
+      end: 0.5
+    Move_Forward:
+      start: 0.5
+      peak: 1.25
+      end: 2
+    Turn_Left:
+      start: 2
+      peak: 2.75
+      end: 3.5
+    Turn_Right:
+      start: 3.5
+      peak: 3.75
+      end: 4
+
+
+comments:
+  # 1: "Verify the pc registration process"
+  # 2: "Implemente initial pose estimation using DL"
+  # 3: "Implement traditional feature descriptors and matchers"
+  # 4: "The best results (until step 28) are using point_to_point, sg and without initial alignment"
+  # 5: "Real vm path: "/home/rodriguez/Documents/logs/vm/""
+  # 6: "Forward th originailly set to 0.5."
